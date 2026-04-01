@@ -266,4 +266,4 @@ with rfm2:
 with rfm3:
     st.metric("Avg Monetary", format_currency(rfm_df["monetary"].mean(), "AUD", locale="en_AU"))
 
-st.caption("Built by Bintang Vandini| Retail Sales and Customer Analytics )
+st.caption("Built by Bintang Vandini| Retail Sales and Customer Analytics")
