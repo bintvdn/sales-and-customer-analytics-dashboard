@@ -4,9 +4,7 @@ import seaborn as sns
 import streamlit as st
 from babel.numbers import format_currency
 
-# ---------------------------------
 # Page Config
-# ---------------------------------
 st.set_page_config(
     page_title="Sales Performance Dashboard",
     page_icon="📊",
@@ -15,9 +13,7 @@ st.set_page_config(
 
 sns.set_theme(style="whitegrid")
 
-# ---------------------------------
 # Helper Functions
-# ---------------------------------
 @st.cache_data
 def load_data():
     df = pd.read_csv("all_data.csv")
@@ -100,14 +96,10 @@ def create_rfm_df(df):
     return rfm_df.drop(columns="last_order_date")
 
 
-# ---------------------------------
 # Load Data
-# ---------------------------------
 all_df = load_data()
 
-# ---------------------------------
 # Sidebar Filters
-# ---------------------------------
 st.sidebar.title("Filter Panel")
 
 min_date = all_df["order_date"].min().date()
@@ -131,18 +123,14 @@ selected_state = st.sidebar.selectbox("Select State", state_options)
 if selected_state != "All":
     main_df = main_df[main_df["state"] == selected_state]
 
-# ---------------------------------
 # Create Summary Tables
-# ---------------------------------
 daily_orders_df = create_daily_orders_df(main_df)
 product_df = create_product_df(main_df)
 gender_df = create_gender_df(main_df)
 state_df = create_state_df(main_df)
 rfm_df = create_rfm_df(main_df)
 
-# ---------------------------------
 # KPI
-# ---------------------------------
 total_orders = daily_orders_df["order_count"].sum()
 total_revenue = daily_orders_df["revenue"].sum()
 total_customers = main_df["customer_id"].nunique()
@@ -152,17 +140,13 @@ top_product = product_df.iloc[0]["product_name"] if not product_df.empty else "-
 top_state = state_df.iloc[0]["state"] if not state_df.empty else "-"
 top_gender = gender_df.iloc[0]["gender"] if not gender_df.empty else "-"
 
-# ---------------------------------
 # Header
-# ---------------------------------
 st.title("Sales Performance & Customer Insights")
 st.markdown(
     "An interactive dashboard to monitor **sales trends, product performance, and customer behavior**."
 )
 
-# ---------------------------------
 # KPI Cards
-# ---------------------------------
 kpi1, kpi2, kpi3, kpi4 = st.columns(4)
 
 with kpi1:
@@ -179,9 +163,7 @@ with kpi4:
 
 st.markdown("---")
 
-# ---------------------------------
 # Main Charts - Compact Layout
-# ---------------------------------
 col1, col2 = st.columns(2)
 
 with col1:
@@ -240,9 +222,7 @@ with col4:
     ax.set_ylabel("")
     st.pyplot(fig)
 
-# ---------------------------------
 # Bottom Summary Section
-# ---------------------------------
 st.markdown("---")
 st.subheader("Key Business Highlights")
 
@@ -272,9 +252,7 @@ with info3:
         """
     )
 
-# ---------------------------------
 # RFM Snapshot
-# ---------------------------------
 st.subheader("Customer Value Snapshot (RFM)")
 
 rfm1, rfm2, rfm3 = st.columns(3)
@@ -288,4 +266,4 @@ with rfm2:
 with rfm3:
     st.metric("Avg Monetary", format_currency(rfm_df["monetary"].mean(), "AUD", locale="en_AU"))
 
-st.caption("Built by Bintang | Retail Sales Analytics Portfolio Project")
+st.caption("Built by Bintang Vandini| Retail Sales and Customer Analytics )
